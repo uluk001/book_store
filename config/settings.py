@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import socket
 from pathlib import Path
 from environs import Env
 env = Env()
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     # Third-party
     'crispy_forms', 
     'allauth',
+    'debug_toolbar',
     'allauth.account',
 
     # Local
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -175,3 +178,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
 DEFAULT_FROM_EMAIL = 'admin@djangobookstore.com'
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname()) 
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
